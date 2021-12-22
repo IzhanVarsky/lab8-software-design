@@ -1,11 +1,11 @@
 import clock.SettableClock
-import event.ClockEventsStatistic
+import event.EventsStatisticImpl
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
 
-class ClockEventsStatisticTest {
-    private fun ClockEventsStatistic.myTripleAssert(
+class Tests {
+    private fun EventsStatisticImpl.myTripleAssert(
         expectedWithDefaultEventName: Int,
         expectedSize: Int
     ) {
@@ -16,7 +16,7 @@ class ClockEventsStatisticTest {
 
     @Test
     fun `one incEvent`() {
-        with(ClockEventsStatistic(SettableClock(zeroInstant))) {
+        with(EventsStatisticImpl(SettableClock(zeroInstant))) {
             myTripleAssert(0, 0)
             incEvent(defaultEventName)
             myTripleAssert(1, 1)
@@ -26,7 +26,7 @@ class ClockEventsStatisticTest {
     @Test
     fun `no events`() {
         val clock = SettableClock(zeroInstant)
-        with(ClockEventsStatistic(clock)) {
+        with(EventsStatisticImpl(clock)) {
             myTripleAssert(0, 0)
             clock.instant = instantLessThanHour
             myTripleAssert(0, 0)
@@ -38,7 +38,7 @@ class ClockEventsStatisticTest {
     @Test
     fun `same event two times`() {
         val clock = SettableClock(zeroInstant)
-        with(ClockEventsStatistic(clock)) {
+        with(EventsStatisticImpl(clock)) {
             incEvent(defaultEventName)
             myTripleAssert(1, 1)
             clock.instant = instantLessThanHour
@@ -57,7 +57,7 @@ class ClockEventsStatisticTest {
     @Test
     fun `a lot of same events`() {
         val clock = SettableClock(zeroInstant)
-        with(ClockEventsStatistic(clock)) {
+        with(EventsStatisticImpl(clock)) {
             (1..100).forEach { i ->
                 clock.instant = zeroInstant
                 incEvent(defaultEventName)
@@ -75,7 +75,7 @@ class ClockEventsStatisticTest {
         val maxSecondForEvent = 4000
         val secondsForEvents = 0..maxSecondForEvent
         val testSecondsForEvents = 0..(maxSecondForEvent + 3601)
-        with(ClockEventsStatistic(clock)) {
+        with(EventsStatisticImpl(clock)) {
             for (eventSec in secondsForEvents) {
                 clock.instant = Instant.ofEpochSecond(eventSec.toLong())
                 incEvent(eventSec.toString())

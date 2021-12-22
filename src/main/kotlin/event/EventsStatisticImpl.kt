@@ -4,7 +4,7 @@ import clock.Clock
 import java.time.Duration
 import kotlin.math.max
 
-class ClockEventsStatistic(private val clock: Clock) : EventsStatistic {
+class EventsStatisticImpl(private val clock: Clock) : EventsStatistic {
     private val events: MutableMap<String, MutableList<Long>> = hashMapOf()
 
     private val nowEpochSecond: Long

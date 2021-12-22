@@ -3,7 +3,7 @@ package event
 import clock.SettableClock
 
 fun main() {
-    with(ClockEventsStatistic(SettableClock())) {
+    with(EventsStatisticImpl(SettableClock())) {
         incEvent("kek")
         incEvent("kek")
         incEvent("kek")
